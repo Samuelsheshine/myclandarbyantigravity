@@ -17,7 +17,13 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('schedule'); // 'schedule' | 'calendar'
 
   // Language State
-  const [language, setLanguage] = useState('zh');
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('language') || 'zh';
+  });
+  useEffect(() => {
+    localStorage.setItem('language', language);
+  }, [language]);
+
   const t = (key) => translations[language][key] || key;
 
   // Theme State
@@ -31,9 +37,16 @@ export default function App() {
   const toggleEditMode = () => setIsEditing(prev => !prev);
 
   // Goals State (Key: Week Start Date "YYYY-MM-DD", Value: Array of goals)
-  const [allGoals, setAllGoals] = useState({
-    [formatDateKey(getMonday(new Date()))]: ['點擊這裡輸入主要目標...', '輸入次要目標...']
+  const [allGoals, setAllGoals] = useState(() => {
+    const saved = localStorage.getItem('allGoals');
+    return saved ? JSON.parse(saved) : {
+      [formatDateKey(getMonday(new Date()))]: ['點擊這裡輸入主要目標...', '輸入次要目標...']
+    };
   });
+
+  useEffect(() => {
+    localStorage.setItem('allGoals', JSON.stringify(allGoals));
+  }, [allGoals]);
 
   // Computed: Current Goals
   const currentWeekMonday = getMonday(currentViewDate);
@@ -48,10 +61,24 @@ export default function App() {
     }));
   };
 
-  const [calendarEvents, setCalendarEvents] = useState({});
+  const [calendarEvents, setCalendarEvents] = useState(() => {
+    const saved = localStorage.getItem('calendarEvents');
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+  }, [calendarEvents]);
 
   // Daily Tasks State (Key: Date "YYYY-MM-DD", Value: Array of tasks)
-  const [allDailyTasks, setAllDailyTasks] = useState({});
+  const [allDailyTasks, setAllDailyTasks] = useState(() => {
+    const saved = localStorage.getItem('allDailyTasks');
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem('allDailyTasks', JSON.stringify(allDailyTasks));
+  }, [allDailyTasks]);
   const currentDateKey = formatDateKey(currentViewDate);
   const currentDailyTasks = allDailyTasks[currentDateKey] || [];
   const currentDayEvents = calendarEvents[currentDateKey] || [];
@@ -65,6 +92,10 @@ export default function App() {
 
   // 課表資料初始值
   const [gridData, setGridData] = useState(() => {
+    const saved = localStorage.getItem('gridData');
+    if (saved) {
+      return JSON.parse(saved);
+    }
     const grid = [];
     for (let r = 0; r < NUM_ROWS; r++) {
       const row = [];
@@ -75,6 +106,10 @@ export default function App() {
     }
     return grid;
   });
+
+  useEffect(() => {
+    localStorage.setItem('gridData', JSON.stringify(gridData));
+  }, [gridData]);
 
   // 2. 連動 Effect: 當週次改變，同步日曆月份
   // 2. 連動 Effect: 當週次改變，同步日曆月份
