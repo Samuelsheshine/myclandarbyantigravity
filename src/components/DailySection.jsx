@@ -42,7 +42,7 @@ export default function DailySection({ date, tasks, setTasks, events, isEditing,
     };
 
     return (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-sm transition-colors duration-200">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 sm:p-6 rounded-sm transition-colors duration-200">
             <div className="flex justify-between items-center mb-3">
                 <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
                     <span>{t('dailyTasks')}</span>

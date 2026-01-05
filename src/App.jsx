@@ -218,7 +218,7 @@ export default function App() {
         t={t}
       />
 
-      <main className="flex-grow p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
+      <main className="flex-grow p-4 md:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
 
         {/* Left Sidebar Navigation */}
         <aside className="w-full lg:w-64 flex-shrink-0 flex flex-col gap-2">
@@ -230,8 +230,8 @@ export default function App() {
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
           >
-            <LayoutGrid size={20} />
-            {t('weeklySchedule')}
+            <LayoutGrid size={20} className="flex-shrink-0" />
+            <span className="truncate">{t('weeklySchedule')}</span>
           </button>
 
           <button
@@ -242,8 +242,8 @@ export default function App() {
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
           >
-            <Calendar size={20} />
-            {t('calendar')}
+            <Calendar size={20} className="flex-shrink-0" />
+            <span className="truncate">{t('calendar')}</span>
           </button>
         </aside>
 
